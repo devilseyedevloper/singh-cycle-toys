@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Singh Cycle & Toys — Responsive Landing</title>
+
+  <!-- Optional: change font easily -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1: #0f1724;
+      --bg2: #0b2b3b;
+      --accent: #e53935;
+      --accent-dark: #be2b2b;
+      --muted: #98a0a8;
+      --card: rgba(255,255,255,0.04);
+      --glass: rgba(255,255,255,0.06);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,"Helvetica Neue",Arial;
+      color:#e6eef6;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent),
+                  linear-gradient(120deg, var(--bg1), var(--bg2));
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* Animated drifting blobs background */
+    .bg-blobs{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      opacity:0.65;
+      mix-blend-mode:screen;
+    }
+    .blob{
+      position:absolute;
+      filter:blur(36px);
+      opacity:0.6;
+      transform-origin:center;
+      animation: drift 18s infinite linear;
+      border-radius:50%;
+    }
+    .b1{width:520px;height:520px;background:linear-gradient(45deg,#1e90ff55,#ff006655); top:-80px; left:-120px; animation-duration:28s}
+    .b2{width:360px;height:360px;background:linear-gradient(45deg,#ff8a0055,#ffd60055); bottom:-60px; right:-80px; animation-duration:22s}
+    .b3{width:300px;height:300px;background:linear-gradient(45deg,#7b61ff55,#00e5ff55); top:20%; right:10%; animation-duration:26s}
+    @keyframes drift{
+      0%{transform:translateY(0) translateX(0) rotate(0)}
+      50%{transform:translateY(30px) translateX(40px) rotate(30deg)}
+      100%{transform:translateY(0) translateX(0) rotate(0)}
+    }
+
+    /* Layout */
+    .wrap{
+      position:relative;
+      z-index:2;
+      max-width:1200px;
+      margin:0 auto;
+      padding:36px 22px 80px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .logo{
+      width:86px;
+      height:86px;
+      border-radius:50%;
+      padding:8px;
+      background:linear-gradient(180deg,#ffffff11,#00000011);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    .logo img{ width:100%; height:100%; object-fit:contain; border-radius:50% }
+
+    .brand h1{
+      margin:0;
+      font-weight:800;
+      letter-spacing:0.6px;
+      font-size:20px;
+      color: #fff;
+    }
+    .brand p{ margin:0; color:var(--muted); font-size:13px }
+
+    nav{ display:flex; gap:12px; align-items:center; }
+    .btn{
+      background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+      color:white;
+      border: none;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 20px rgba(229,57,53,0.18);
+    }
+    .btn.secondary{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      padding:8px 12px;
+      font-weight:600;
+    }
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      margin-top:18px;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      padding:28px;
+      border-radius:18px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .hero h2{
+      margin:0 0 10px 0;
+      font-size:28px;
+      line-height:1.05;
+      color:#fff;
+    }
+    .hero p.lead{
+      color:var(--muted);
+      margin:0 0 16px 0;
+    }
+    .feature-list{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .chip{
+      background:var(--glass);
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.04);
+      font-weight:700;
+      font-size:13px;
+      color:#f5f7fb;
+    }
+
+    /* Right column hero carousel card */
+    .hero-preview{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+      border-radius:14px;
+      padding:18px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .preview-carousel{
+      position:relative;
+      overflow:hidden;
+      height:260px;
+      border-radius:12px;
+      margin-bottom:12px;
+      background:linear-gradient(135deg,#071426,#0b2b3b);
+      box-shadow: inset 0 -16px 40px rgba(0,0,0,0.4);
+    }
+    .slide{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      transform:translateX(100%);
+      transition:transform .7s cubic-bezier(.2,.9,.3,1), opacity .5s;
+      opacity:0;
+    }
+    .slide.active{ transform:translateX(0); opacity:1 }
+    .slide img{ max-height:200px; max-width:100%; object-fit:contain; filter: drop-shadow(0 12px 30px rgba(0,0,0,0.6)); }
+
+    .carousel-controls{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      align-items:center;
+    }
+    .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer}
+    .dot.active{ background:var(--accent) }
+
+    /* Cards grid for products & details */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+      margin-top:28px;
+    }
+    .card{
+      background:var(--card);
+      padding:16px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .card h3{ margin:0 0 8px 0; font-size:16px }
+    .specs{ font-size:14px; color:var(--muted); line-height:1.5 }
+
+    /* Location/contact panel */
+    .contact-panel{
+      margin-top:22px;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .contact-card{
+      flex:1;
+      min-width:260px;
+      padding:18px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .big-phone{
+      font-size:22px;
+      font-weight:800;
+      color:#fff;
+      letter-spacing:0.6px;
+    }
+    .small{ color:var(--muted); font-size:13px }
+
+    /* Gallery */
+    .gallery{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      gap:12px;
+    }
+    .gallery .item{
+      height:140px;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg,#071426,#0b2b3b);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .gallery img{ width:100%; height:100%; object-fit:cover; display:block }
+
+    footer{
+      margin-top:40px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+      padding-bottom:24px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: repeat(2,1fr); }
+      .gallery{ grid-template-columns: repeat(3,1fr) }
+      .logo{ width:70px; height:70px }
+    }
+    @media (max-width: 600px){
+      .grid{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: repeat(2,1fr) }
+      header{ flex-direction:column; gap:12px; align-items:flex-start }
+      nav{ width:100%; justify-content:space-between }
+    }
+
+    /* small animation touches */
+    .reveal{
+      opacity:0; transform:translateY(8px);
+      transition:opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1);
+    }
+    .reveal.visible{ opacity:1; transform:translateY(0) }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="Singh Cycle & Toys Logo">
+          <!-- local image (developer-provided path) -->
+          <img src="F:\projects vs code\WhatsApp Image 2025-11-04 at 15.07.13_c9f099a6.jpg" alt="Singh Cycle & Toys logo">
+        </div>
+        <div>
+          <h1>SINGH CYCLE & TOYS</h1>
+          <p>Battery-operated cars • Vespas • Toys • Remote & Bluetooth</p>
+        </div>
+      </div>
+
+      <nav>
+        <button class="btn" id="btn-contact">Call Now</button>
+        <button class="btn secondary" id="btn-loc">Get Directions</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card reveal" id="intro">
+        <h2>Play bigger. Drive safer. Smile wider.</h2>
+        <p class="lead">High-quality battery-operated cars, vespas, and ride-on bullets — available with double battery, remote/manual control, Bluetooth music, and a loud horn. Professional service, located in Shimlapuri, Ludhiana.</p>
+
+        <div class="feature-list" aria-hidden="false">
+          <div class="chip">Double Battery</div>
+          <div class="chip">Remote Control</div>
+          <div class="chip">Manual Mode</div>
+          <div class="chip">Bluetooth Music</div>
+          <div class="chip">Inbuilt Horn</div>
+          <div class="chip">Pro Service</div>
+        </div>
+
+        <div style="margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <a class="btn" href="tel:+919988788830">📞 9988788830</a>
+          <button class="btn secondary" id="btn-inventory">View Inventory</button>
+        </div>
+
+        <div class="contact-panel">
+          <div class="contact-card">
+            <div class="small">Location</div>
+            <div class="big-phone">Near Dharam Kanda, Chimni Road, Shimlapuri, Ludhiana</div>
+            <div style="height:8px"></div>
+            <div class="small">Hours: Mon–Sat • 10:00 — 19:00</div>
+          </div>
+
+          <div class="contact-card">
+            <div class="small">Quick highlights</div>
+            <div style="height:6px"></div>
+            <div class="specs">
+              Double batteries for longer fun, remote and manual control modes for safety & learning, Bluetooth-enabled music, and built-in horns for realistic play.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- products / features -->
+    <section class="grid reveal" id="specs">
+      <div class="card">
+        <h3>What we sell</h3>
+        <div class="specs">
+          Battery operated cars, Vespas, ride-on bullets — for kids aged 2–8 depending on model. Each unit tested; some models come with double battery and remote mode.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Connectivity</h3>
+        <div class="specs">
+          Remote control (2.4GHz), manual drive, Bluetooth audio, USB/aux inputs on select models, charging status LED, and safety seat belts on larger models.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Extras & Service</h3>
+        <div class="specs">
+          Inbuilt music system, loud horn, replacement batteries, professional servicing, and local pickup in Shimlapuri.
+        </div>
+      </div>
+    </section>
+
+    <!-- gallery -->
+    <section class="gallery reveal" id="gallery">
+      <div class="item"><img alt="toy1" src="F:\projects vs code\Screenshot 2025-11-05 162852.png"></div>
+      <div class="item"><img alt="toy2" src="F:\projects vs code\Screenshot 2025-11-05 162917.png"></div>
+      <div class="item"><img alt="toy3" src="F:\projects vs code\Screenshot 2025-11-05 163003.png"></div>
+      <div class="item"><img alt="toy4" src="F:\projects vs code\Screenshot 2025-11-05 163201.png"></div>
+    </section>
+
+    <footer class="reveal" id="foot">
+      <div>
+        📍 Near Dharam Kanda, Chimni Road, Shimlapuri, Ludhiana — Call: <a href="tel:+919988788830" style="color:inherit; text-decoration:underline;">9988788830</a> · Professional servicing & certified parts.
+      </div>
+      <div style="margin-top:8px; opacity:0.9;">© <span id="year"></span> Singh Cycle & Toys — Built with drive and heart.</div>
+    </footer>
+  </div>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // hero carousel auto-play + controls
+    (function(){
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      let idx = 0;
+      const activate = (n) => {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        slides[n].classList.add('active');
+        dots[n].classList.add('active');
+        idx = n;
+      }
+      let timer = setInterval(()=> activate((idx+1)%slides.length), 4200);
+
+      // dot click
+      dots.forEach((d,i)=> d.addEventListener('click', ()=> {
+        activate(i);
+        clearInterval(timer);
+        timer = setInterval(()=> activate((idx+1)%slides.length), 4200);
+      }));
+
+      // keyboard accessibility
+      dots.forEach((d,i)=> d.addEventListener('keydown', (e)=> {
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); d.click(); }
+      }));
+    })();
+
+    // reveal on scroll
+    (function(){
+      const revealEls = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting) en.target.classList.add('visible');
+        });
+      }, {threshold: 0.12});
+      revealEls.forEach(el=> io.observe(el));
+    })();
+
+    // contact button actions
+    document.getElementById('btn-contact').addEventListener('click', ()=> {
+      window.location.href = 'tel:+919988788830';
+    });
+    document.getElementById('btn-loc').addEventListener('click', ()=>{
+      // opens Google Maps search for the location (user can allow)
+      const q = encodeURIComponent('Near Dharam Kanda, Chimni Road, Shimlapuri, Ludhiana');
+      window.open('https://www.google.com/maps/search/?api=1&query=' + q, '_blank');
+    });
+
+    // inventory button: scroll to gallery
+    document.getElementById('btn-inventory').addEventListener('click', ()=>{
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    });
+
+    // small floating animation to make UI feel alive
+    (function animateLogoPulse(){
+      const logo = document.querySelector('.logo');
+      if(!logo) return;
+      let t = 0;
+      function frame(){
+        t += 0.02;
+        logo.style.transform = `translateY(${Math.sin(t)*4}px) scale(${1 + Math.sin(t*0.7)*0.01})`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
